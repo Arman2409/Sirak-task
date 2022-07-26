@@ -4,6 +4,7 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { changeDialogStatus } from "../../store/dialogSlice";
 import Dialog from "../Dialog/Dialog";
+import { addBid } from "../../store/bidsSlice";
 
 function CointsList() {
   const [loading, setLoading] = useState(false);
@@ -15,8 +16,9 @@ function CointsList() {
     return state.dialog.dialogStatus;
   });
 
-  const openDialog = () => {
+  const openDialog = (item) => {
     dispatch(changeDialogStatus());
+    dispatch(addBid(item));
   };
 
   useEffect(() => {
@@ -63,7 +65,7 @@ function CointsList() {
           .map((item) => (
             <div>
               <div>
-                <button onClick={openDialog}>Trade</button>
+                <button onClick={() => openDialog(item)}>Trade</button>
                 <h5 key={item.id}>{item.symbol}</h5>
                 <p>{item.priceChangePercent}</p>
               </div>
